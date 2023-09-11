@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Doing DOM Stuff</title>
+
+<script language="javascript">
+
+ var xmlString 	= '<bookstore><book category="cooking"><title lang="en">Everyday Italian</title><author>Giada De Laurentiis</author><year>2005</year><price>30.00</price></book><book category="children"><title lang="en">Harry Potter</title><author>J K. Rowling</author><year>2005</year><price>29.99</price></book></bookstore>' ;
+ var xmlDoc 	= null ;
+ 
+function createXMLDocument ( str ) {	
+    
+    if (window.DOMParser) {
+        var parser = new DOMParser ();
+        xmlDoc = parser.parseFromString (str, "text/xml");
+        
+    } else if (window.ActiveXObject) {
+        xmlDoc = new ActiveXObject ("Microsoft.XMLDOM");
+        xmlDoc.async = false;
+        xmlDoc.loadXML (str);
+    }
+
+	return xmlDoc ;  
+} 
+//	Retrieve all the book titles from the XML contant
+function getBookTitles( xmlDoc ) {
+	//	Get all the book tags
+    var books 		= xmlDoc.getElementsByTagName ("book") ;
+	var	bookTitles 	=	"";
+	//	Iterate over all the book tags
+	for ( bIDX = 0; bIDX < books.length; bIDX++){
+		//	Get the title tags for each individual book tag
+		titleTag = books.item( bIDX ).getElementsByTagName( "title") ;
+		//	Get the first (and only) title tag...
+		firstTitle  = titleTag.item( 0 ) ;
+		//	Get the #text CHILD TAG
+		textNode = firstTitle.childNodes[ 0 ];
+		//	Use nodeValue on the #text tag...append to all others...use quotes to distinguish titles
+		bookTitles = bookTitles + " '" + textNode.nodeValue + "'";
+	}
+	//	Update page DIV with found titles.
+	document.getElementById("bookTitles").innerHTML = bookTitles  ;
+}
+//	Retrieve all the categories from the XML content
+function getBookCategories( xmlDoc ) {
+	//	Get ALL the books...
+    var books 			= xmlDoc.getElementsByTagName ("book") ;
+	var	bookCategories 	=	"";
+	//	Iterate over all the books
+	for ( bIDX = 0; bIDX < books.length; bIDX++){
+		//	Get a single book.....
+		aBook = books.item( bIDX ) ;
+		//	If tag has attributes, get attribute by name...
+		if ( aBook.hasAttributes( ) )
+			bookCategories = bookCategories + " '" + aBook.getAttributeNode("category").nodeValue + "'";		
+	}
+	document.getElementById("bookCategories").innerHTML = bookCategories  ;
+}
+// 	Create 1 column table showing book titles.
+//	May either construct HTML string representing table or use DOM
+//	methods to create/add nodes. We'll do the DOM thing here...
+function createTable( xmlDoc ) {
+	//	Create the TABLE tag
+	var	table		 	= document.createElement( "table");
+	//	aaahhh why not put a border attribute on it?
+	table.setAttribute("border", "2" ) ;
+	//	Get ALL the books...
+    	var books 			= xmlDoc.getElementsByTagName ("book") ;
+	//	Iterate over all the books
+	for ( bIDX = 0; bIDX < books.length; bIDX++){ 
+		//	Create a row for the table
+		var	aRow	=	document.createElement( "tr" ) ;
+		//	Create a table data element to hold the title
+		var	aCell	=	document.createElement( "td" ) ;
+		//	Get a single book.....
+		var	aBook = books.item( bIDX ) ;
+		//	Get its title element and the (#text node) content in one statement...
+		var	aTitle=	aBook.getElementsByTagName("title")[ 0 ].childNodes[ 0 ].nodeValue ;
+		// Create the table elements...
+		// First, set title value to TD cell....
+		var	textForTable	=	document.createTextNode( aTitle ) ;
+		aCell.appendChild( textForTable ) ;
+		//	Append to row....
+		aRow.appendChild( aCell ) ;
+		//	Append to table
+		table.appendChild( aRow ) ;
+	}
+	//	Need to put this table somewhere......
+	document.getElementById("tablegoeshere").appendChild( table ) ;
+}
+//	Create 2 column table showing book titles and price.
+//	May either construct HTML string representing table or use DOM
+//	methods to create/add nodes. We'll do the DOM thing here...
+function createBiggerTable( xmlDoc ) {
+
+	//	Create the TABLE tag
+	var	table		 	= document.createElement( "table");
+	//	aaahhh why not put a border attribute on it?
+	table.setAttribute("border", "2" ) ;
+	//	Get ALL the books...
+   	 var books 			= xmlDoc.getElementsByTagName ("book") ;
+	//	Iterate over all the books
+	for ( bIDX = 0; bIDX < books.length; bIDX++){ 
+		//	Create a row for the table
+		aRow	=	document.createElement( "tr" ) ;
+		//	Create a table data element to hold the title
+		titleCell	=	document.createElement( "td" ) ;
+		//	Get a single book.....
+		aBook = books.item( bIDX ) ;
+		//	Get its title element and the (#text node) content in one statement...
+		aTitle=	aBook.getElementsByTagName("title")[ 0 ].childNodes[ 0 ].nodeValue ;
+		// Create the table elements...
+		// First, set title value to TD cell....
+		textForTable	=	document.createTextNode( aTitle ) ;
+		titleCell.appendChild( textForTable ) ;
+		//	Append to row....
+		aRow.appendChild( titleCell ) ;
+		//	Now fetch the price...just like we fetched the title above
+		aPrice=	aBook.getElementsByTagName("price")[ 0 ].childNodes[ 0 ].nodeValue ;
+		//	Why not clone the previous table cell and change its text node value...
+		priceCell = titleCell.cloneNode( true ) ;
+		priceCell.innerHTML = aPrice ;
+		aRow.appendChild( priceCell ) ;
+		//	Append to table
+		table.appendChild( aRow ) ;
+	}
+	//	Need to put this table somewhere......
+	document.getElementById("biggertablegoeshere").appendChild( table ) ;
+
+}
+//Retrieve the price of the Harry Potter book
+function getHPPrice( xmlDoc ) {
+    	//	Get ALL the books...
+    	var books 			= xmlDoc.getElementsByTagName ("book") ;
+	var	bookCategories 	=	"";
+	//	Iterate over all the books
+	for ( bIDX = 0; bIDX < books.length; bIDX++) {
+		//	Get a single book.....
+		aBook = books.item( bIDX ) ;
+                //      See if this is the Harry Potter book by examining title
+		//
+		if ( aBook.getElementsByTagName("title")[ 0 ].childNodes[ 0 ].nodeValue == "Harry Potter" ){	
+	            //  Get the price...
+                    price = aBook.getElementsByTagName("price")[ 0 ].childNodes[ 0 ].nodeValue ;
+		    //  Let's get outta here!
+		    break ;
+                }	
+	}
+	document.getElementById("hpPrice").innerHTML = price  ;
+}
+function reset( ) {
+	document.getElementById("bookTitles").innerHTML = "&nbsp;" ;
+	document.getElementById("bookCategories").innerHTML = "&nbsp;" ;
+	document.getElementById("hpPrice").innerHTML = "&nbsp;" ;
+	document.getElementById("tablegoeshere").innerHTML = "&nbsp;" ;
+	document.getElementById("biggertablegoeshere").innerHTML = "&nbsp;" ;
+	
+}
+</script>
+</head>
+<body onload="createXMLDocument( xmlString )">
+	<h1>Doin' DOM Stuff</h1>
+	<table>
+		<tr>
+			<td><button onclick="getBookTitles( xmlDoc )">Get Book Titles</button></td>
+			<td><div id="bookTitles">&nbsp;</div></td>
+		</tr>
+		
+		<tr>
+			<td><button onclick="getBookCategories( xmlDoc )">Get Book Categories</button></td>
+			<td><div id="bookCategories">&nbsp;</div></td>		
+		</tr>
+		
+		<tr>
+			<td><button onclick="getHPPrice( xmlDoc )">Get The Price of Harry Potter Book</button></td>
+			<td><div id="hpPrice">&nbsp;</div></td>		
+		</tr>
+		<tr>
+			<td><button onclick="createTable( xmlDoc )">Create 1 column table showing book titles</button></td>
+			<td><div id="tablegoeshere">&nbsp;</div></td>		
+		</tr>
+		
+		<tr>
+			<td><button onclick="createBiggerTable( xmlDoc )">Create 2 column table showing title, price</button></td>
+			<td><div id="biggertablegoeshere">&nbsp;</div></td>		
+		</tr>		
+	
+	</table>
+
+	<button onclick="reset(  )">Reset Page</button>
+	
+	<pre>
+	 The XML String for reference
+	 	&lt;bookstore>
+		 &lt;book category="cooking">
+			 &lt;title lang="en">Everyday Italian&lt;/title>
+			 &lt;author>Giada De Laurentiis&lt;/author>
+			 &lt;year>2005&lt;/year>
+			 &lt;price>30.00&lt;/price>
+		 &lt;/book>
+                 &lt;book category="children">
+			 &lt;title lang="en">Harry Potter&lt;/title>
+			 &lt;author>J K. Rowling&lt;/author>
+			 &lt;year>2005&lt;/year>
+			 &lt;price>29.99&lt;/price>
+		 &lt;/book>
+	 	&lt;/bookstore>
+	  
+	</pre> 
+
+</body>
+</html>

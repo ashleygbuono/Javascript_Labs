@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ES6 Classes</title>
+  <meta charset="UTF-8" />
+  <script src="classes/bankaccountES6.js"> </script> 
+  <script src="classes/checkingES6.js"> </script>
+  <script src="classes/savingsES6.js"> </script>  
+   <script>
+   // Complete this function as follows:
+   // 1: Use a default value of 50 for the argument numAccts (new ES6 feature!)
+   // 2: Create an empty array that will hold the generated account objects
+   //    This array is to be returned (already coded)
+   // 3: Use a new feature of ES6 to properly scope the index variable index
+   //    the FOR loop
+   function createBunchaAccounts( numAccts ) {
+      // Gen a random number from 0 to 2.    
+      // 0 ==> Bank Account               properties:   'B' + acctIDX, 'BName' + acctIDX, acctIDX * 100
+      // 1 ==> Checking                   properties:   'C' + acctIDX, 'CName' + acctIDX, acctIDX * 100, true
+      // 2 ==> Savings                    properties:   'S' + acctIDX, 'SName' + acctIDX, acctIDX * 100, 0.05
+      // acctID, acctHolder, balance
+      // Most property values don't really matter
+	  //
+	  // Here is where you code the return value
+	  ???? bunchaAccts = [] ;
+      for ( ???? acctIDX = 0; acctIDX < numAccts; acctIDX++ ) {
+         switch( Math.floor(Math.random() * 3) ) {
+            case 0: bunchaAccts[ acctIDX ] = new BankAccount( 'B' + acctIDX, 'BName' + acctIDX, acctIDX * 100 ) ; break ;
+            case 1: bunchaAccts[ acctIDX ] = new CheckingAccount( 'C' + acctIDX, 'CName' + acctIDX, acctIDX * 100, true ) ; break ;
+            default: bunchaAccts[ acctIDX ] = new SavingsAccount( 'S' + acctIDX, 'SName' + acctIDX, acctIDX * 100, 0.05 ) ;            
+         }
+      }
+      return bunchaAccts ;   
+   }
+   // To start, create a bank account object and call its printValues method
+   const testBA = new BankAccount( 'B01', 'BName01', 5000 ) ;
+   testBA.printValues( ) ;
+   
+   // Create a bunch of accounts
+   // Think of an appropriate variable quantifier 
+   ??? bunchaAccts = createBunchaAccounts( 100 ) ;
+   // Just print out the account IDs: POLYMORPHISM!!!!!
+   // Try NOT to use a FOR loop with an index!
+   // Instead, use the below function with a forEach method
+   function listAcctID( anAcct ) {
+         console.log( anAcct.acctID ) ;
+   }
+   bunchaAccts.?????      
+   // Count the number of Savings accounts
+   // We'll use the acctID for this (S ==> Savings, etc.)
+   // Use the filter method to extract then count the returned elements with the .length property.
+   // The filter method should take a function that extracts the Account ID with the accessor and 
+   // see if it begins with 'S'
+   // Think of what qualifier you would choose for your variable that holds the count 
+ 
+   ??? numSavings = bunchaAccts.filter( CODE YOUR FILTER FUNCTION HERE ).length ;  
+   console.log( numSavings ) ;
+   // Find the average bank balance of ALL accounts
+   // first, use reduce to total ALL balances then divide by the number of accounts
+   // Code the function as an argument to filter OR code the function external to filter then
+   // use the function name as an argument to filter (see the OHs for examples)
+   const totalBalance = bunchaAccts.reduce( CODE FUNCTION HERE OR REFERENCE EXTERNAL FUNCTION HERE ) ;   
+   console.log("average balance = " + (totalBalance / bunchaAccts.length ) ) ; 
+   //
+   // THIS ONE IS HARD!!!
+   //
+   // For all savings account with balance > 5,000 apply the interest rate (newbalance = oldbalance * ( 1 + interestRate )
+   // Filter savings accounts for balances > 5,000 then map the product of the balance and the interest back to the balance
+   // Feel free to use the filter you already coded to count the savings accounts.
+   // Print out acct ID and new balances using the forEach() method.
+   //
+   // If you're bad to the bone, you can do this ON LINE LINE!!!
+   const newSavAccts = bunchaAccts.filter( code something here )
+                                .map( code something here } 
+                                    )
+                                .forEach( code something here ) ; 
+   /////////////////////////////////////////////////////////////////////////////
+   // OPTIONAL
+   // Now, count the number of EACH type
+   // You'll have an object with the key of B, S, or C and the counts for each value 
+   // You'll need an expression that adds one to the existing count or assigns 0 if this is the first time
+   // that account type is encountered   
+   const numEachType = bunchaAccts.reduce( code something here
+                                        ) ;
+   // Print them out                                 
+   console.log( "Sav " + numEachType[ 'S' ] ) ;   
+   console.log( "Bank " + numEachType[ 'B' ] ) ;
+   console.log( "check " + numEachType[ 'C' ] ) ;                                  
+                                
+   
+   </script>
+</head>
+<body>
+
+</body>
+</html>

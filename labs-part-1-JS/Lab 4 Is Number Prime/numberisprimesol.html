@@ -1,0 +1,38 @@
+<html>
+<body>
+	<script>
+
+
+/*
+We know that a prime number can only be divided by 1 and itself.
+The square root of numberA is really just numberB multiplied by numberB (ex: 9 x 9 = 81, the square root of 81 is 9)
+
+
+ex: candidate = 25;
+sqRoot = 5
+
+2  3    4   5
+
+*/
+
+
+var candidate = prompt( "Enter a number for prime testing or <= 2 to quit") ;
+	while ( candidate > 2 )  { 
+		// Test candidate by dividing by all numbers < its square root
+		// If no number evenly divides, the number is prime
+		var sqRoot =  Math.floor( Math.sqrt( candidate ) ) ;
+		for ( var divBy = 2; divBy <= sqRoot; divBy ++ ) {
+		   if ( candidate % divBy == 0 ) {
+		     alert( candidate + " is not prime. Factors are " + divBy + " and " + candidate / divBy ) ;	
+			 break ;			 
+		   }
+		}
+		// If we've been through the loop and no factor found, number is prime
+		if ( divBy >  sqRoot  ) {
+			alert( candidate + " is Prime!!!" ) ;
+		}
+		candidate = prompt( "Enter a number for prime testing or <= 2 to quit") ;
+	} 
+	</script>
+</body>
+</html>

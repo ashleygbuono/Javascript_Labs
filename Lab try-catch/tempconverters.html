@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Temperature Converter</title>
+    <script>
+      function tempErrorHandler() {
+        
+      }
+
+
+      const degreeSymbol = "\xB0"; // That's the little degree circle - can you include this in your output?
+      const lineBreak = "\n";
+
+      // Celsius to Fahrenheit
+      let cTemp = prompt("Enter a Celsius temp to convert to Fahrenheit");
+
+      // Compute Fahrenheit equivalent HERE.
+      // Fahrenheit temp is 32 more than 9/5ths (1.8) of the Celsius temp
+      const fConverted = cTemp * 1.8 + 32;
+
+      // Create a message (just a variable) saying "100C is 212F" or whatever value you used for cTemp
+      let celMessage =
+        cTemp + degreeSymbol + "C is " + fConverted + degreeSymbol + "F.";
+
+      // If temperature exceeds or equals 212 F we append "It's boiling here" ;
+      celMessage =
+        fConverted >= 212 ? celMessage + " It's boiling here!" : celMessage;
+
+      // If temperature is less than or equals 32 F we append "It's freezing here"
+      celMessage =
+        fConverted <= 32 ? celMessage + " It's freezing here!" : celMessage;
+
+      // The other way
+      let fTemp = prompt("Enter a Farenheit temp to convert to Celsius");
+
+      // Compute Celsius equivalent HERE
+      // Celsius temp is 5/9ths (0.555556) of the difference of the Fahrenheit temp and 32
+      const cConverted = (fTemp - 32) * 0.555556;
+
+      // Create a message (just a variable) saying "100F is 212C" or whatever value you used for cTemp
+      let farMessage =
+        fTemp + degreeSymbol + "F is " + cConverted + degreeSymbol + "C.";
+
+      // If temperature exceeds or equals 100 C we append "It's boiling here" ;
+      farMessage =
+        cConverted >= 100 ? farMessage + " It's boiling here!" : farMessage;
+
+      // If temperature is less than or equals 0 C we append "It's freezing here"
+      farMessage =
+        cConverted <= 0 ? farMessage + " It's freezing here!" : farMessage;
+
+      // Create an alert showing both messages - put a line break
+      alert(celMessage + lineBreak + farMessage);
+
+      // Write the same output as you used for the alert box to the console
+      console.log(celMessage + lineBreak + farMessage);
+    </script>
+  </head>
+  <body></body>
+</html>

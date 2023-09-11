@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Subsets of a string</title>
+<script type="text/javascript">
+
+function showSubsets( myString ) 
+{
+  let subset = "";
+  // Build the subsets here. Have two loops; the outer loop
+  // accesses the first letter of the substring; the inner loop
+  // builds the substring by taking pieces of the string starting
+  // with the character accessed by the OUTER loop and ending with
+  // the characters up to the character accessed in the INNER loop
+  for (let i = 0; i < myString.length; i++) {
+    for (let j = i; j < myString.length; j++) {
+      let slicedStr = myString.slice(i, j + 1);
+  // Inside the nested loops, APPEND the newly generated substring
+  // to the variable subset followed by a newline (\n) character
+      subset += slicedStr + "\n";
+    }
+  }
+ 
+  //
+  // You'll need at least THREE lines of code for this lab
+  return subset;
+};
+const stringForSubStrLab = prompt("Enter a string here") ;
+console.log( showSubsets( stringForSubStrLab ) ) ;
+
+</script>
+
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Subsets of a string</title>
+<script type="text/javascript">
+
+function showSubsets( myString ) 
+{
+  var subset = "";
+  for (var firstLtrIdx = 0; firstLtrIdx < myString.length; firstLtrIdx++) 
+  {
+    for (var remainingLtrIdx = firstLtrIdx + 1; remainingLtrIdx < myString.length + 1; remainingLtrIdx++) 
+    {
+      subset+=(myString.slice(firstLtrIdx, remainingLtrIdx)) + "\n";
+    }
+  }
+  return subset;
+};
+var stringForSubStrLab = prompt("Enter a string here") ;
+console.log( showSubsets( stringForSubStrLab ) ) ;
+
+</script>
+
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<html>
+  <body>
+    <script>
+      //Code a SCRIPT tag
+
+      /*This is how you generate a random number in JavaScript
+var�randNum�=�Math.floor(Math.random()�*�50)�+�1;
+
+var�turns�=�5;   // Or however many guesses you want to try
+
+var�hint� =�'Guess my number, 1-50!';
+
+
+Code a loop that allows you to guess the coded number of tries
+
+PUT YOUR LOOP STATEMENT HERE */
+      const randNum = Math.floor(Math.random() * 50) + 1;
+      let turns = 5;
+      let hint = "Guess my number, 1-50!";
+
+      while (turns > 0) {
+        //  1   Code an expression that PROMPTS the user for a guess
+        //      Assign the user input to a variable named guess
+        //      Put in the HINT coded above and the remaining number of guesses
+
+        const guess = prompt(hint + " You have " + turns + " guesses left.");
+        //console.log(guess, randNum, turns);
+
+        //   2  If user DOES NOT enter a number then BREAK from loop
+        //      If user CANCELs from PROMPT, BREAK from the loop
+        if (!guess) break;
+
+        //   3  IF the guess EQUALS the number, write to the screen "YOU WIN!" and reset the turns counter to 0
+        //      Use the document.write statement below inside your IF statement
+        if (Number(guess) === randNum) {
+          document.write("<p>YOU WIN!</p>");   //not best practice to use document.write, append directly to DOM
+          turns = 0;
+          break;
+        }
+        //   4  If the guess DOES NOT EQUAL the number, change the HINT variable to sway "Nope. Too Small" or
+        //      "Nope. Too Big" based on the relationship between the guess and the number
+        //      Also DECREMENT the turns variable
+        else if (Number(guess) < randNum) {
+          hint = "Nope, too small!";
+          turns--;
+        } else {
+          hint = "Nope, too big!";
+          turns--;
+        }
+      }
+
+      // OUTSIDE the loop, list the SECRET NUMBER in an ALERT box
+      alert("The SECRET NUMBER is " + randNum);
+      // CLOSE your SCRIPT tag here
+    </script>
+  </body>
+</html>

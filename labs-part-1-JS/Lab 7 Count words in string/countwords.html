@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Count Words in String</title>
+<!-- Include 'wordsandtablefunction.js' here as an external script -->  
+<script src="wordsandtablefunction.js"></script>
+
+<script type="text/javascript">
+let wordCounts         = {} ;			// Holds counts by word
+let wordCountsByLetter = {} ;			// Holds counts of first letter of words
+let arrayOfWords = words.toLowerCase().split(" ");
+
+function collectWordDistribution( ) {
+
+	// This function saves the count of either the word object or the letter object
+	// The KEY is the item we use to index into the countObject
+	// The COUNTOBJECT holds the data (counts) accessible by the key
+	function saveCounts( key, dict ) {
+		let countObject = 0;
+		// Recall that OBJ.PROP is UNDEFINED if PROP not defined on OBJ
+		// If this is the FIRST time we encounter a letter/word, the
+		// countObject.key will be UNDEFINED
+		// If so we can assign 0 to the previously UNDEFINED property (key)
+		// to 'define' it.
+		//
+		// Once OBJ.KEY is defined merely ADD 1 to the existing value
+		if (!dict[key]) {
+			countObject = 1;
+			dict[key] = countObject;
+		} else {
+			dict[key] = dict[key] += 1;
+		}
+		
+		// P.S. This routine could take TWO lines of code or a single if/else statement
+	}
+	// The variable words in the include file contains the string we want to parse
+	// Place words in an array - convert to lower case first, then use a
+	// JavaScript STRING function to create an ARRAY of blank-demimited words
+		//let arrayOfWords = words.toLowerCase().split(" ");
+	// Iterate over all the words saving the word counts in
+	// a JavaScript object 'wordCounts' with a property of the word and the value of
+	// the word count.
+	// wordCount.frank = # times 'frank' appeared in the list
+	// HOWEVER,
+	// We can't access the object property with DOT notation here - 
+	// we need the [ ] notation when we represent the property AS A VARIABLE
+	// Do the same for the first letter of the word - use the letter aside
+	// a key in the 'wordCountsByLetter' object
+	for ( let wIDX = 0; wIDX < arrayOfWords.length; wIDX++ ) {	
+		// Save counts by word. Invoke the saveCounts() function you wrote above
+		// passing the WORD in the array currently accessible from the loop
+		// AND the object that contains the WORD COUNTS
+		saveCounts( arrayOfWords[wIDX], wordCounts) ;
+		// Call the same saveCounts function - this time pass the
+		// FIRST LETTER of the word previously passed and the object
+		// that contains the LETTER COUNTS
+		saveCounts( arrayOfWords[wIDX][0], wordCountsByLetter ) ;	
+	}
+	
+}
+// Display table showing count of words - no sorting
+function showWordDistribution( ) {
+	const headings = ["Count of Words", "Word", "Count" ] ;
+	
+	//console.log("wordCounts", wordCounts);
+	//console.log("wordsByLetter", wordCountsByLetter);
+
+	// Call the 'showData' function in wordsandtablefunction.js that creates the table
+	// Pass the KEYS of the object (here, the WORDS) and the object containing the
+	// WORD COUNTS	
+	showData( headings, arrayOfWords, wordCounts ) ;	
+}
+// Display table showing count of first letter of words - no sorting
+function showFirstLetterDistribution( ) {
+	const headings = ["Count of Words by First Letter", "Letter", "Count" ] ;
+	let arrayOfLetters = [];
+	for (let i = 0; i < arrayOfWords.length; i++) {
+		arrayOfLetters.push(arrayOfWords[i][0]);
+	}
+	// Call the 'showData' function in wordsandtablefunction.js that creates the table
+	// Pass the KEYS of the object (here, the LETTERS) and the object containing the
+	// LETTER COUNTS
+	showData( headings, arrayOfLetters, wordCountsByLetter ) ;	
+}
+// Display table showing count of words - sorted by word
+function showSortWordDistribution( ) {
+	const headings = ["Count of Words sorted by word", "Word", "Count" ] ;
+	let uniqueWordArr = [];
+	// Call the 'showData' function in wordsandtablefunction.js that creates the table
+	// Pass the KEYS SORTED ALPHABETICALLY of the object (here, the WORDS) 
+	// and the object containing the WORD COUNTS
+	for (let i = 0; i < arrayOfWords.length; i++) {
+		if (!uniqueWordArr.includes(arrayOfWords[i])) uniqueWordArr.push(arrayOfWords[i]);
+	}
+	let sortedByWord = uniqueWordArr.sort();
+	showData( headings, sortedByWord, wordCounts) ;
+}
+// Display table showing count first letter of words - sorted by letter
+function showSortLetterDistribution( ) {
+	const headings = ["Count of Words sorted by first letter", "Letter", "Count" ] ;
+	let uniqueLetterArr = [];
+	// Call the 'showData' function in wordsandtablefunction.js that creates the table
+	// Pass the KEYS SORTED ALPHABETICALLY of the object (here, the LETTERS) 
+	// and the object containing the LETTER COUNTS
+	for (let i = 0; i < arrayOfWords.length; i++) {
+		if (!uniqueLetterArr.includes(arrayOfWords[i][0])) uniqueLetterArr.push(arrayOfWords[i][0]);
+	}
+	let sortedByLetter = uniqueLetterArr.sort();
+	showData( headings, sortedByLetter, wordCountsByLetter ) ;
+}
+// Display table showing count of words - sort by word count
+function showSortCountDistribution( ) {
+	const headings = ["Count of Words sorted by Count", "Word", "Count" ] ;
+	// Call the 'showData' function in wordsandtablefunction.js that creates the table
+	// First, SORT the KEYS using the 'sortByCount' function below
+	let keysByCount = Object.keys(wordCounts).sort(sortByCount);
+	//console.log(keysByCount);
+	// Pass the KEYS SORTED NUMERICALLY of the object (here, the WORD COUNTS) 
+	// and the object containing the WORD COUNTS.
+	showData( headings, keysByCount, wordCounts ) ;
+	// In Advanced Java we see how to combine the sort functions into one
+	function sortByCount( elem1, elem2 ) {
+		return wordCounts[ elem1 ] - wordCounts[ elem2 ] ;
+	}
+}
+// Display table showing count of first letter of words - sort by letter count
+function showSortCountLetterDistribution( ) {
+	const headings = ["Count of First Letters sorted by Count", "Letter", "Count" ] ;
+	// Call the 'showData' function in wordsandtablefunction.js that creates the table
+	// First, SORT the KEYS using the 'sortByCount' function below
+	let keysByCount = Object.keys(wordCountsByLetter).sort(sortByCount);
+	showData( headings, keysByCount, wordCountsByLetter ) ;
+	// In Advanced Java we see how to combine the sort functions into one
+	function sortByCount( elem1, elem2 ) {
+		return wordCountsByLetter[ elem1 ] - wordCountsByLetter[ elem2 ] ;
+	}
+}
+
+</script>
+</head>
+<!-- Note the words and words by letter are counted when the table loads 
+     Not necessary but want to show examples of various event handlers in JavaScript.
+	 And it's not a bad idea since doing the counting is something done once
+	 and might as well be done before you click any buttons/create any tables -->
+<body onload="collectWordDistribution( );">
+	<table>
+		<tr>
+			<td><input type="button" onclick='showWordDistribution( )' value="Click to list word distribution" /></td>
+			<td><input type="button" onclick='showFirstLetterDistribution( )' value="Click to list first letter distribution" /></td>
+		</tr>
+		<tr>
+			<td><input type="button" onclick='showSortWordDistribution( )' value="Click to list sorted word distribution" /></td>
+			<td><input type="button" onclick='showSortLetterDistribution( )' value="Click to list sorted first letter distribution" /></td>
+		</tr>
+		<tr>		
+			<td><input type="button" onclick='showSortCountDistribution( )' value="Click to list sorted count distribution" /></td>
+			<td><input type="button" onclick='showSortCountLetterDistribution( )' value="Click to list sorted count first letter distribution" /></td>
+		</tr>	
+	</table> 
+	<!-- Here's where the table will go -->
+	<div id="words"></div>
+</body>
+</html>

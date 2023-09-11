@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Count Words in String</title>
+  
+<script src="wordsandtablefunctionsol.js"> </script>
+<script type="text/javascript">
+var wordCounts         = {} ;
+var wordCountsByLetter = {} ;
+
+function collectWordDistribution( ) {
+
+	// This function saves the count of either the word object or the letter object
+	function saveCounts( key, countObject ) {
+		if ( countObject[ key ] == undefined ) countObject[ key ] = 0 ;
+		countObject[ key ] ++ ;	
+	}
+	// The variable words in the include file contains the string we want to parse
+	// Place words in an array - convert to lower case first
+	var arrayOfWords = words.toLowerCase( ).split(" ") ;
+	// Iterate over all the words saving the word counts in
+	// a JavaScript object 'wordCounts' with a property of the word and the value of
+	// the word count.
+	// wordCount.frank = # times 'frank' appeared in the list
+	// HOWEVER,
+	// We can't access the object property with DOT notation here - 
+	// we need the [ ] notation when we represent the property AS A VARIABLE
+	// Do the same for the first letter of the word - use the letter aside
+	// a key in the 'wordCountsByLetter' object
+	for ( var wIDX = 0; wIDX < arrayOfWords.length; wIDX++ ) {	
+		// Save counts by word
+		saveCounts( arrayOfWords[ wIDX ], wordCounts ) ;
+		// Save counts by first letter of word
+		saveCounts( arrayOfWords[ wIDX ].charAt( 0 ), wordCountsByLetter ) ;	
+	}
+}
+// Display table showing count of words - no sorting
+function showWordDistribution( ) {
+	var headings = ["Count of Words", "Word", "Count" ] ;
+	showData( headings, Object.keys( wordCounts ), wordCounts ) ;	
+}
+// Display table showing count of first letter of words - no sorting
+function showFirstLetterDistribution( ) {
+	var headings = ["Count of Words by First Letter", "Letter", "Count" ] ;
+	showData( headings, Object.keys( wordCountsByLetter ), wordCountsByLetter ) ;	
+}
+// Display table showing count of words - sorted by word
+function showSortWordDistribution( ) {
+	// Now display the list in sorted word order
+	var keysByWord = Object.keys( wordCounts ) ;
+	var headings = ["Count of Words sorted by word", "Word", "Count" ] ;
+	showData( headings, keysByWord.sort( ), wordCounts ) ;
+}
+// Display table showing count first letter of words - sorted by letter
+function showSortLetterDistribution( ) {
+	// Now display the list in sorted word order
+	var keysByLetter = Object.keys( wordCountsByLetter ) ;
+	var headings = ["Count of Words sorted by first letter", "Letter", "Count" ] ;
+	showData( headings, keysByLetter.sort( ), wordCountsByLetter ) ;
+}
+// Display table showing count of words - sort by word count
+function showSortCountDistribution( ) {
+	// Now display the list in sorted count order
+	var keysByCount = Object.keys( wordCounts ).sort( sortByCount ) ;
+	var headings = ["Count of Words sorted by Count", "Word", "Count" ] ;
+	showData( headings, keysByCount, wordCounts ) ;
+	// In Advanced Java we see how to combine the sort functions into one
+	function sortByCount( elem1, elem2 ) {
+		return wordCounts[ elem1 ] - wordCounts[ elem2 ] ;
+	}
+}
+// Display table showing count of first letter of words - sort by letter count
+function showSortCountLetterDistribution( ) {
+	// Now display the list in sorted count order
+	var keysByLetter = Object.keys( wordCountsByLetter ).sort( sortByCount ) ;
+	var headings = ["Count of First Letters sorted by Count", "Letter", "Count" ] ;
+	showData( headings, keysByLetter, wordCountsByLetter ) ;
+	// In Advanced Java we see how to combine the sort functions into one
+	function sortByCount( elem1, elem2 ) {
+		return wordCountsByLetter[ elem1 ] - wordCountsByLetter[ elem2 ] ;
+	}
+}
+
+</script>
+</head>
+<body onload="collectWordDistribution( );">
+	<table>
+		<tr>
+			<td><input type="button" onclick='showWordDistribution( )' value="Click to list word distribution" /></td>
+			<td><input type="button" onclick='showFirstLetterDistribution( )' value="Click to list first letter distribution" /></td>
+		</tr>
+		<tr>
+			<td><input type="button" onclick='showSortWordDistribution( )' value="Click to list sorted word distribution" /></td>
+			<td><input type="button" onclick='showSortLetterDistribution( )' value="Click to list sorted first letter distribution" /></td>
+		</tr>
+		<tr>		
+			<td><input type="button" onclick='showSortCountDistribution( )' value="Click to list sorted count distribution" /></td>
+			<td><input type="button" onclick='showSortCountLetterDistribution( )' value="Click to list sorted count first letter distribution" /></td>
+		</tr>	
+	</table> 
+	<!-- Here's where the table will go -->
+	<div id="words"></div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Temperature Converter</title>
+<script>
+  // Celsius to Fahrenheit
+  var cTemp = prompt( "Enter a Celsius temp to convert to Fahrenheit" ) ;
+  var degreeSymbol = '\xB0' ;
+  var lineBreak    = '\n' ;
+
+  var cToFahr = cTemp * 9 / 5 + 32;
+  var messageC = cTemp + degreeSymbol + 'C is ' + cToFahr + degreeSymbol + 'F' ;
+  // If temperature exceeds or equals 212 F we append "It's boiling here" ;
+  messageC = messageC + ( ( cToFahr >= 212 )? " It's boiling here": "" ) ;
+  // If temperature is less than or equals 32 F we append "It's freezing here"
+  messageC = messageC + ( ( cToFahr <= 32 )? " It's freezing here": "" ) ;
+
+  // The other way
+  var fTemp = prompt( "Enter a Fahrenheit temp to convert to Celsius" ) ; ;
+  var fToCel = (fTemp - 32) * 5 / 9;
+  var messageF = fTemp + degreeSymbol + 'F is ' + fToCel + degreeSymbol + 'C' ;
+  // If temperature exceeds or equals 100 C we append "It's boiling here" ;
+  messageF = messageF + ( ( fToCel >= 100 )? " It's boiling here": "" ) ;
+  // If temperature is less than or equals 0 C we append "It's freezing here"
+  messageF = messageF + ( ( fToCel <= 0 )? " It's freezing here": "" ) ;
+
+  alert( messageC + lineBreak + messageF ) ;
+  console.log( messageC + lineBreak + messageF ) ;
+
+</script>
+
+</head>
+	
+<body>
+
+</body>
+</html>

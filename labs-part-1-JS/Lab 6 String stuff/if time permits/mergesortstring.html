@@ -1,0 +1,48 @@
+<html>
+<body>
+	<script>
+
+function mergeSort(arr)
+{
+    if (arr.length < 2)
+        return arr;
+ 
+    var middle = parseInt(arr.length / 2);
+    var left   = arr.slice(0, middle);
+    var right  = arr.slice(middle, arr.length);
+ 
+    return merge(mergeSort(left), mergeSort(right));
+}
+ 
+function merge(left, right)
+{
+    var result = "";
+ 
+    while (left.length && right.length) {
+        if (left.charAt( 0 ) <= right.charAt( 0 ) ) {
+            result+= left.charAt( 0 );
+			left   = left.slice( 1 ) ;
+        } else {
+            result+= right.charAt( 0 );
+			right  = right.slice( 1 ) ;
+        }
+    }
+ 
+    while (left.length) {
+        result+= left.charAt( 0 );
+		left   = left.slice( 1 ) ;	
+	}
+ 
+    while (right.length) {
+        result+= right.charAt( 0 );
+		right  = right.slice( 1 ) ;
+	}
+ 
+    return result;
+}
+ 
+sortMe = prompt("Enter string to be sorted" ) ;
+alert("Sorted string is " + mergeSort( sortMe )); 
+	</script>
+</body>
+</html>
